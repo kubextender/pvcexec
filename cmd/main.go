@@ -8,6 +8,7 @@ import (
 	"k8s.io/apimachinery/pkg/watch"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/kubernetes/scheme"
+	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/tools/remotecommand"
 	"k8s.io/client-go/util/homedir"
@@ -47,7 +48,14 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
 	pod := createRunnerPod(clientset, *namespace, pvcNames)
+	// delete pod on exit
+	defer clientset.CoreV1().Pods(*namespace).Delete(podName, metav1.NewDeleteOptions(0))
+	execCommandInPod(clientset, pod, command, err, config)
+}
+
+func execCommandInPod(clientset *kubernetes.Clientset, pod *apiv1.Pod, command []string, err error, config *rest.Config) {
 	req := clientset.CoreV1().RESTClient().
 		Post().
 		Namespace(pod.Namespace).
@@ -62,7 +70,6 @@ func main() {
 			Stderr:    true,
 			TTY:       true,
 		}, scheme.ParameterCodec)
-
 	exec, err := remotecommand.NewSPDYExecutor(config, "POST", req.URL())
 	if err != nil {
 		panic(err.Error())
@@ -73,8 +80,6 @@ func main() {
 		panic(err.Error())
 	}
 	defer terminal.Restore(0, oldState)
-	defer clientset.CoreV1().Pods(*namespace).Delete(podName, metav1.NewDeleteOptions(0))
-
 	// Connect this process' std{in,out,err} to the remote shell process.
 	err = exec.Stream(remotecommand.StreamOptions{
 		Stdin:  os.Stdin,
@@ -89,14 +94,12 @@ func main() {
 
 func createRunnerPod(clientset *kubernetes.Clientset, namespace string, pvcs []string) *apiv1.Pod {
 	pods := clientset.CoreV1().Pods(namespace)
-
 	volumes := make([]apiv1.Volume, len(pvcs))
 	volumeMounts := make([]apiv1.VolumeMount, len(pvcs))
 	for i, pvcName := range pvcs {
 		volumeMounts[i] = apiv1.VolumeMount{MountPath: "/" + pvcName, Name: pvcName}
 		volumes[i] = apiv1.Volume{Name: pvcName, VolumeSource: apiv1.VolumeSource{PersistentVolumeClaim: &apiv1.PersistentVolumeClaimVolumeSource{ClaimName: pvcName, ReadOnly: false}}}
 	}
-
 	mcpvcPod := &apiv1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      podName,
