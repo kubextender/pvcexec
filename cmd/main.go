@@ -22,12 +22,12 @@ const imageName = "kodiraj.ga:5001/mcpvc/runner-docker:latest"
 func main() {
 	var kubeconfig *string
 	if home := homedir.HomeDir(); home != "" {
-		kubeconfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "(optional) absolute path to the kubeconfig file")
+		kubeconfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "absolute path to the kubeconfig file - (optional)")
 	} else {
-		kubeconfig = flag.String("kubeconfig", "", "absolute path to the kubeconfig file")
+		kubeconfig = flag.String("kubeconfig", "", "absolute path to the kubeconfig file - (required)")
 	}
-	var namespace = flag.String("n", "default", "namespace")
-	var pvcsArg = flag.String("pvcs", "", "list of pvc names to mount under `/` folder, i.e. -pvcNames pvc1 pvc2 pvc3 (at least one required)")
+	var namespace = flag.String("n", "default", "namespace - (optional)")
+	var pvcsArg = flag.String("pvcs", "", "list of pvc names to mount under / folder, i.e. -pvcs 'pvc1 pvc2 pvc3' - (at least one required)")
 	flag.Parse()
 	if *pvcsArg == "" {
 		flag.PrintDefaults()
@@ -48,8 +48,6 @@ func main() {
 		panic(err)
 	}
 	pod := createRunnerPod(clientset, *namespace, pvcNames)
-	// Prepare the API URL used to execute another process within the Pod.  In
-	// this case, we'll run a remote shell.
 	req := clientset.CoreV1().RESTClient().
 		Post().
 		Namespace(pod.Namespace).
