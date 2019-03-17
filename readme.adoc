@@ -1,0 +1,8 @@
+.Build
+`make build`
+
+.Usage
+`./build/mcpvc -kubeconfig [full path to your kube config file] -pvcs 'testpvc1 testpvc2'`
+
+.Create test pvc
+`kubectl apply -f testpvc.yaml`
