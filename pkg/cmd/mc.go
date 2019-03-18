@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
 	"golang.org/x/crypto/ssh/terminal"
 	apiv1 "k8s.io/api/core/v1"
@@ -39,9 +38,9 @@ func NewRunOptions(streams genericclioptions.IOStreams) *RunOptions {
 func NewRootCmd(streams genericclioptions.IOStreams) *cobra.Command {
 	opt := NewRunOptions(streams)
 	cmd := &cobra.Command{
-		Use:          "mc -pvc pvcname1 -pvc pvcname2]",
-		Short:        "Mounts provided pvc to pod and run Midnight Commander",
-		Example:      fmt.Sprintf("", "kubectl"),
+		Use:          "kubectl mc -pvc pvcname1 -pvc pvcname2",
+		Short:        "Mounts provided pvc(s) to the new pod and run Midnight Commander",
+		Example:      "kubectl mc -pvc testpvc1 -pvc testpvc2 -pvc testpvc3",
 		SilenceUsage: true,
 		RunE: func(c *cobra.Command, args []string) error {
 			if err := opt.Complete(c, args); err != nil {
