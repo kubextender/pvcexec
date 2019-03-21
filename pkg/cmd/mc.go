@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/spf13/cobra"
 	"golang.org/x/crypto/ssh/terminal"
 	apiv1 "k8s.io/api/core/v1"
@@ -12,7 +13,6 @@ import (
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd/api"
 	"k8s.io/client-go/tools/remotecommand"
-
 	"os"
 )
 
@@ -89,9 +89,12 @@ func (opt *RunOptions) Complete(cmd *cobra.Command, args []string) error {
 func (opt *RunOptions) Run() error {
 	restConfig, _ := opt.configFlags.ToRESTConfig()
 	podClient, _ := corev1client.NewForConfig(restConfig)
-	pod := createRunnerPod(podClient, opt)
-	// delete pod on exit
 	defer podClient.Pods(opt.namespace).Delete(opt.podName, metav1.NewDeleteOptions(0))
+	pod, err := createRunnerPod(podClient, opt)
+	if err != nil {
+		return err
+	}
+	// delete pod on exit
 	execCommandInPod(podClient, pod, opt)
 	return nil
 }
@@ -133,7 +136,7 @@ func execCommandInPod(coreClient *corev1client.CoreV1Client, pod *apiv1.Pod, opt
 	}
 }
 
-func createRunnerPod(pods *corev1client.CoreV1Client, options *RunOptions) *apiv1.Pod {
+func createRunnerPod(pods *corev1client.CoreV1Client, options *RunOptions) (*apiv1.Pod, error) {
 	volumes := make([]apiv1.Volume, len(options.pvcNames))
 	volumeMounts := make([]apiv1.VolumeMount, len(options.pvcNames))
 	for i, pvcName := range options.pvcNames {
@@ -168,14 +171,14 @@ func createRunnerPod(pods *corev1client.CoreV1Client, options *RunOptions) *apiv
 	podsClient := pods.Pods(options.namespace)
 	pod, err := podsClient.Create(mcpvcPod)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 	// Wait for the Pod to indicate Ready == True.
 	watcher, err := podsClient.Watch(
 		metav1.SingleObject(pod.ObjectMeta),
 	)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 	for event := range watcher.ResultChan() {
 		switch event.Type {
@@ -184,16 +187,20 @@ func createRunnerPod(pods *corev1client.CoreV1Client, options *RunOptions) *apiv
 			// If the Pod contains a status condition Ready == True, stop
 			// watching.
 			for _, cond := range pod.Status.Conditions {
+				fmt.Printf("Condition %v, %v, %v, %v\n", cond.Type, cond.Reason, cond.Message, cond.Status)
 				if cond.Type == apiv1.PodReady &&
 					cond.Status == apiv1.ConditionTrue {
 					watcher.Stop()
+				} else if cond.Status == apiv1.ConditionFalse && cond.Reason == apiv1.PodReasonUnschedulable {
+					watcher.Stop()
+					return nil, fmt.Errorf("Error %v", cond.Message)
 				}
 			}
 		default:
 			panic("unexpected event type " + event.Type)
 		}
 	}
-	return pod
+	return pod, nil
 }
 func getEnv(key, defaultValue string) string {
 	value := os.Getenv(key)
