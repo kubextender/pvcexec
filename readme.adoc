@@ -2,7 +2,7 @@
 `make build`
 
 .Usage
-`./build/mcpvc -kubeconfig [full path to your kube config file] -pvcs 'testpvc1 testpvc2'`
+`kubectl pvcexec mc -p testpvc1 -p testpvc2`
 
 .Create test pvc
 `kubectl apply -f testpvc.yaml`
