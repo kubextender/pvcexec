@@ -81,8 +81,8 @@ func (opt *RunOptions) Complete(cmd *cobra.Command, args []string) error {
 		secondDir = opt.pvcNames[1]
 	}
 	opt.command = []string{"/usr/bin/mc", opt.pvcNames[0], secondDir}
-	opt.imageName = "kodiraj.ga:5001/mcpvc/runner-docker:latest"
-	opt.podName = "mcpvc"
+	opt.imageName = "kubextender/pvcexec-mc:latest"
+	opt.podName = "pvcexec-mc"
 	return nil
 }
 
