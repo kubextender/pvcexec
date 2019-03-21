@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	flags := pflag.NewFlagSet("kubectl-mc", pflag.ExitOnError)
+	flags := pflag.NewFlagSet("kubectl-pvcexec", pflag.ExitOnError)
 	pflag.CommandLine = flags
 
 	root := cmd.NewRootCmd(genericclioptions.IOStreams{In: os.Stdin, Out: os.Stdout, ErrOut: os.Stderr})
