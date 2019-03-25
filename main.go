@@ -1,7 +1,7 @@
-package main
+package pvcexec
 
 import (
-	"../pkg/cmd"
+	"github.com/kubextender/pvcexec/pkg/cmd"
 	"github.com/spf13/pflag"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"os"
