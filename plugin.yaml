@@ -1,3 +1,0 @@
-name: "pvcexec"
-shortDesc: "Mount list of PVC into pod and runs command"
-command: "./pvcexec"
