@@ -5,7 +5,7 @@ go:
   - 1.11.x
 
 script:
-  - GOOS=darwin GOARCH=amd64 go build -o ./kubectl-pvcexec ./main.go
+  - GOOS=darwin GOARCH=amd64 go build -o /tmp/kubectl-pvcexec ./main.go
 
 deploy:
   - provider: script
