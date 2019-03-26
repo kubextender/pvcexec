@@ -1,4 +1,4 @@
-package pvcexec
+package main
 
 import (
 	"github.com/kubextender/pvcexec/pkg/cmd"

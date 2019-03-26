@@ -4,6 +4,9 @@ language: go
 go:
   - 1.11.x
 
+script:
+  - make buildlocal
+
 deploy:
   - provider: script
     skip_cleanup: true

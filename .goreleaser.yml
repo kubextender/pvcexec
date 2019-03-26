@@ -1,8 +1,7 @@
 builds:
-  - main: .
-    binary: pvcexec
+  - main: main.go
+    binary: kubectl-pvcexec
     goos:
-      - windows
       - darwin
       - linux
     goarch:
