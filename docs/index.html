@@ -16,9 +16,19 @@
       repo: 'kubextender/pvcexec',
       loadNavbar: true,
       themeColor: '#090240',
-      loadSidebar: true
+      loadSidebar: true,
+      search: {
+        noData: {
+          '/': 'No results!'
+        },
+        paths: 'auto',
+        placeholder: {
+          '/': 'Search'
+        }
+      }
     }
   </script>
   <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+  <script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script>
 </body>
 </html>
