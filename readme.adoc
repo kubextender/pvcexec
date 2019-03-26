@@ -1,8 +1,1 @@
-.Build
-`make build`
-
-.Usage
-`kubectl pvcexec mc -p testpvc1 -p testpvc2`
-
-.Create test pvc
-`kubectl apply -f testpvc.yaml`
+Project documentation: https://kubextender.github.io/pvcexec/[]
