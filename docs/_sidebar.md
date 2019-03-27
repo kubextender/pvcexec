@@ -4,9 +4,7 @@
   - [Installing](how-to-install.md)
     - [Manually](installing-plugin-manually.md)
     - [Homebrew](installing-plugin-homebrew.md)
-- Running
-
-  - [Quick start](running-quick-start.md)
+  - [Running](running-quick-start.md)
 
 - Guide
 
