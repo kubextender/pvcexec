@@ -1,4 +1,11 @@
 <!-- docs/_sidebar.md -->
+- Getting started
 
-* [Getting started](/)
-* [Docs](/docs.md)
+  - [Installing](how-to-install.md)
+    - [Manually](installing-plugin-manually.md)
+    - [Homebrew](installing-plugin-homebrew.md)
+  - [Running](running-quick-start.md)
+
+- Guide
+
+  - [Architecture](architecture.md)
