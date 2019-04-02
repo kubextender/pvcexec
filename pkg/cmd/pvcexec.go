@@ -7,10 +7,11 @@ import (
 )
 
 func NewPvcExecOptions(streams genericclioptions.IOStreams) *k8s.PvcExecOptions {
-	return &k8s.PvcExecOptions{
+	options := &k8s.PvcExecOptions{
 		ConfigFlags: genericclioptions.NewConfigFlags(true),
 		IOStreams:   streams,
 	}
+	return options
 }
 
 func NewPvcExecCmd(streams genericclioptions.IOStreams) *cobra.Command {

@@ -5,10 +5,11 @@ import (
 	"golang.org/x/crypto/ssh/terminal"
 	apiv1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/watch"
 	"k8s.io/client-go/kubernetes/scheme"
 	corev1client "k8s.io/client-go/kubernetes/typed/core/v1"
 	"k8s.io/client-go/tools/remotecommand"
+	"time"
+
 	"os"
 )
 
@@ -87,31 +88,34 @@ func CreateRunnerPod(pods *corev1client.CoreV1Client, options *PvcExecOptions) (
 	if err != nil {
 		return nil, err
 	}
-	// Wait for the Pod to indicate Ready == True.
-	watcher, err := podsClient.Watch(
+	status := pod.Status
+	w, err := podsClient.Watch(
 		metav1.SingleObject(pod.ObjectMeta),
 	)
 	if err != nil {
 		return nil, err
 	}
-	for event := range watcher.ResultChan() {
-		switch event.Type {
-		case watch.Modified:
-			pod = event.Object.(*apiv1.Pod)
-			// If the Pod contains a status condition Ready == True, stop
-			// watching.
-			for _, cond := range pod.Status.Conditions {
-				if cond.Type == apiv1.PodReady &&
-					cond.Status == apiv1.ConditionTrue {
-					watcher.Stop()
-				} else if cond.Status == apiv1.ConditionFalse && cond.Reason == apiv1.PodReasonUnschedulable {
-					watcher.Stop()
-					return nil, fmt.Errorf("Error %v", cond.Message)
+	func() {
+		for {
+			select {
+			case events, ok := <-w.ResultChan():
+				if !ok {
+					return
 				}
+				pod = events.Object.(*apiv1.Pod)
+				fmt.Println("Pod status:", pod.Status.Phase)
+				status = pod.Status
+				if pod.Status.Phase != apiv1.PodPending {
+					w.Stop()
+				}
+			case <-time.After(20 * time.Second):
+				fmt.Println("timeout to wait for pod active")
+				w.Stop()
 			}
-		default:
-			panic("unexpected event type " + event.Type)
 		}
+	}()
+	if status.Phase != apiv1.PodRunning {
+		return nil, fmt.Errorf("Pod is unavailable: %v, %v", status.Phase, status.Reason)
 	}
 	return pod, nil
 }
