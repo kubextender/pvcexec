@@ -1,1 +1,3 @@
 Project documentation: https://kubextender.github.io/pvcexec/[]
+
+include::./docs/manual-install.md[]
