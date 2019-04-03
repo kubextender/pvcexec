@@ -1,6 +1,6 @@
 <!-- _coverpage.md -->
 
-# pvcexec <small>0.1.5</small>
+> [`pvcexec 0.1.5`](https://github.com/kubextender/pvcexec/releases/latest)
 
 > Missing kubernetes pvc manager!
 
