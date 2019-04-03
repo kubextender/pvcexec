@@ -1,11 +1,11 @@
 <!-- docs/_sidebar.md -->
-- Getting started
 
-  - [Installing](how-to-install.md)
-    - [Manually](installing-plugin-manually.md)
-    - [Homebrew](installing-plugin-homebrew.md)
-  - [Running](running-quick-start.md)
+- [Home]()
 
-- Guide
+- [How to install](installing-plugin-manually.md)
 
-  - [Architecture](architecture.md)
+- [Running](running-quick-start.md)
+
+- [Architecture](architecture.md)
+  
+- [Feature requests](feature_requests.md)
