@@ -1,6 +1,6 @@
 ## Getting started
 
-[filename](manual-install.md ':include')
+* Install [`pvcexec`](/installing-plugin-setup-script.md)
 
 [filename](_list_and_run.md ':include')
 
