@@ -54,7 +54,7 @@ func CreateRunnerPod(pods *corev1client.CoreV1Client, options *PvcExecOptions) (
 	volumes := make([]apiv1.Volume, len(options.PvcNames))
 	volumeMounts := make([]apiv1.VolumeMount, len(options.PvcNames))
 	for i, pvcName := range options.PvcNames {
-		volumeMounts[i] = apiv1.VolumeMount{MountPath: "/" + pvcName, Name: pvcName}
+		volumeMounts[i] = apiv1.VolumeMount{MountPath: "/mnt/" + pvcName, Name: pvcName}
 		claimVolumeSource := &apiv1.PersistentVolumeClaimVolumeSource{ClaimName: pvcName, ReadOnly: false}
 		volumes[i] = apiv1.Volume{Name: pvcName, VolumeSource: apiv1.VolumeSource{PersistentVolumeClaim: claimVolumeSource}}
 	}
@@ -103,19 +103,19 @@ func CreateRunnerPod(pods *corev1client.CoreV1Client, options *PvcExecOptions) (
 					return
 				}
 				pod = events.Object.(*apiv1.Pod)
-				fmt.Println("Pod status:", pod.Status.Phase)
+				fmt.Println("Checking pod status:", status.Phase)
 				status = pod.Status
 				if pod.Status.Phase != apiv1.PodPending {
 					w.Stop()
 				}
-			case <-time.After(20 * time.Second):
+			case <-time.After(15 * time.Second):
 				fmt.Println("timeout to wait for pod active")
 				w.Stop()
 			}
 		}
 	}()
 	if status.Phase != apiv1.PodRunning {
-		return nil, fmt.Errorf("Pod is unavailable: %v, %v", status.Phase, status.Reason)
+		return nil, fmt.Errorf("Pod is unavailable: %v", status.Phase)
 	}
 	return pod, nil
 }

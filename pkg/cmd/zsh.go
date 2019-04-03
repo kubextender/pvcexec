@@ -8,25 +8,25 @@ import (
 )
 
 var (
-	mcImageName = "kubextender/pvcexec-mc:LATEST"
-	mcPodName   = "pvcexec-mc"
+	zshImageName = "kubextender/pvcexec-zsh:LATEST"
+	zshPodName   = "pvcexec-zsh"
 )
 
-type McOptions struct {
+type ZshOptions struct {
 	pvcExecOptions *k8s.PvcExecOptions
 }
 
-func NewMcOptions(options *k8s.PvcExecOptions) *McOptions {
-	return &McOptions{
+func NewZshOptions(options *k8s.PvcExecOptions) *ZshOptions {
+	return &ZshOptions{
 		pvcExecOptions: options,
 	}
 }
-func NewMcCommand(pvcexecOptions *k8s.PvcExecOptions) *cobra.Command {
-	options := NewMcOptions(pvcexecOptions)
+func NewZshCommand(pvcexecOptions *k8s.PvcExecOptions) *cobra.Command {
+	options := NewZshOptions(pvcexecOptions)
 	cmd := &cobra.Command{
-		Use:                   "mc",
-		Short:                 "Mounts provided pvc(s) to the new pod and run Midnight Commander",
-		Example:               "kubectl pvcexec mc -pvc testpvc1 -pvc testpvc2 -pvc testpvc3",
+		Use:                   "zsh",
+		Short:                 "Mounts provided pvc(s) to the new pod and run zsh shell",
+		Example:               "kubectl pvcexec zsh -pvc testpvc1 -pvc testpvc2 -pvc testpvc3",
 		DisableFlagsInUseLine: true,
 		RunE: func(c *cobra.Command, args []string) error {
 			if err := options.complete(c, args); err != nil {
@@ -45,9 +45,9 @@ func NewMcCommand(pvcexecOptions *k8s.PvcExecOptions) *cobra.Command {
 }
 
 // Complete completes the setup of the command.
-func (mcOptions *McOptions) complete(cmd *cobra.Command, args []string) error {
+func (zshOptions *ZshOptions) complete(cmd *cobra.Command, args []string) error {
 	var err error
-	options := mcOptions.pvcExecOptions
+	options := zshOptions.pvcExecOptions
 	// Prepare namespace
 	options.Namespace, _, err = options.ConfigFlags.ToRawKubeConfigLoader().Namespace()
 	if err != nil {
@@ -64,21 +64,14 @@ func (mcOptions *McOptions) complete(cmd *cobra.Command, args []string) error {
 		return err
 	}
 	options.PvcNames, _ = cmd.Flags().GetStringArray("pvc")
-	if err != nil {
-		return err
-	}
-	secondDir := "/mnt/"
-	if len(options.PvcNames) > 1 {
-		secondDir = options.PvcNames[1]
-	}
-	options.Command = []string{"/usr/bin/mc", "/mnt/" + options.PvcNames[0], secondDir}
-	options.ImageName = mcImageName
-	options.PodName = mcPodName
+	options.Command = []string{"/bin/zsh"}
+	options.ImageName = zshImageName
+	options.PodName = zshPodName
 	return nil
 }
 
-func (mcOptions *McOptions) run() error {
-	options := mcOptions.pvcExecOptions
+func (zshOptions *ZshOptions) run() error {
+	options := zshOptions.pvcExecOptions
 	restConfig, _ := options.ConfigFlags.ToRESTConfig()
 	podClient, _ := corev1client.NewForConfig(restConfig)
 

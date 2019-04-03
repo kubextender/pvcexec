@@ -17,8 +17,8 @@ func NewPvcExecOptions(streams genericclioptions.IOStreams) *k8s.PvcExecOptions 
 func NewPvcExecCmd(streams genericclioptions.IOStreams) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                   "pvcexec COMMAND=mc|ohmyzsh|bash [options]",
-		Short:                 "Mounts provided pvc(s) to the new pod and run Midnight Commander",
-		Example:               "pvcexec mc -p testpvc1",
+		Short:                 "Mounts provided pvc(s) to the new pod and run command",
+		Example:               "pvcexec [sub-command]",
 		DisableFlagsInUseLine: true,
 		Run: func(c *cobra.Command, args []string) {
 			c.SetOutput(streams.ErrOut)
@@ -28,5 +28,6 @@ func NewPvcExecCmd(streams genericclioptions.IOStreams) *cobra.Command {
 	}
 	o := NewPvcExecOptions(streams)
 	cmd.AddCommand(NewMcCommand(o))
+	cmd.AddCommand(NewZshCommand(o))
 	return cmd
 }
