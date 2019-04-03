@@ -2,7 +2,9 @@
 
 - [Home]()
 
-- [How to install](installing-plugin-manually.md)
+- How to install
+  - [Setup script](installing-plugin-setup-script.md)
+  - [Manually](installing-plugin-manually.md)
 
 - [Running](running-quick-start.md)
 
