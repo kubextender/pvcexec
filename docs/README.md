@@ -2,9 +2,16 @@
 
 ## Installing
 
+!> MacOS and Linux are the only supported platforms at the moment
+
+!> [`curl`](https://curl.haxx.se/) command line client is required for installation
+
 ```bash
 bash <(curl -s https://raw.githubusercontent.com/kubextender/pvcexec/master/setup.sh)
 ```
+
+> `setup.sh` script recognizes OS it's being executed on, downloads appropriate precompiled binary, and makes it 
+> available to `kubectl` by being placed on `/usr/local/bin/kubectl-pvcexec`
 
 ## Running
 
