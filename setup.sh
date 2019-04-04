@@ -10,7 +10,9 @@ fi
 
 echo Downloading "$OS" binary from $URL ...
 BINARY_PATH='/usr/local/bin/kubectl-pvcexec'
-curl -s -o "$BINARY_PATH" "$URL"
+curl -L -s -o "$BINARY_PATH" "$URL"
+
+chmod +x "$BINARY_PATH"
 
 echo "Binary installed successfully to $BINARY_PATH"
 echo Done!
