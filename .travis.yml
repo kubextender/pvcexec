@@ -2,10 +2,10 @@ sudo: required
 language: go
 
 go:
-  - 1.11.x
+  - 1.12.x
 
 script:
-  - GOOS=darwin GOARCH=amd64 go build -o /tmp/kubectl-pvcexec ./main.go
+  - make buildlocal
 
 deploy:
   - provider: script
