@@ -5,7 +5,6 @@
 > Missing kubernetes pvc manager!
 
 - Runs as a kubernetes plugin
-- Opens midnight commander showing mounted specified pvcs or loads zsh shell
 
 ![pvcexec demo](/_media/pvcexec-demo.gif)
 
