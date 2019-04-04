@@ -6,7 +6,7 @@
 
 - Runs as a kubernetes plugin
 
-![pvcexec demo](/_media/pvcexec-demo.gif)
+![pvcexec demo](/_media/pvcexec-demo.gif ':size=1240')
 
 [GitHub](https://github.com/kubextender/pvcexec/)
 [Getting Started](#getting-started)
