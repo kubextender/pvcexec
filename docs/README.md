@@ -38,4 +38,5 @@ Feel free to vote for the next [features](https://doodle.com/poll/pnu5kbwnfmcphi
 ## Project authors
 
 Project kicked off by [Dragan Ljubojevic](https://github.com/ljufa) and [Dusan Odalovic](https://github.com/dodalovic)
+
 Contributions are highly appreciated!
