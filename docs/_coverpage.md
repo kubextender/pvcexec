@@ -1,11 +1,11 @@
 <!-- _coverpage.md -->
 
-> [`pvcexec 0.1.5`](https://github.com/kubextender/pvcexec/releases/latest)
+> [`pvcexec 0.2.0`](https://github.com/kubextender/pvcexec/releases/latest)
 
 > Missing kubernetes pvc manager!
 
 - Runs as a kubernetes plugin
-- Opens midnight commander showing mounted specified pvcs
+- Opens midnight commander showing mounted specified pvcs or loads zsh shell
 
 ![pvcexec demo](/_media/pvcexec-demo.gif)
 
