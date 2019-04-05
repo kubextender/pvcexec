@@ -1,3 +1,10 @@
 image:https://travis-ci.com/kubextender/pvcexec.svg?branch=master["Build Status", link="https://travis-ci.com/kubextender/pvcexec"]
 
 Project documentation: https://kubextender.github.io/pvcexec/[]
+
+.zsh
+image::docs/_media/screencast.svg[zsh]
+
+.mc
+image::docs/_media/screencast_mc.svg[mc]
+
