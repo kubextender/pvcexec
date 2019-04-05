@@ -69,7 +69,7 @@ func (mcOptions *McOptions) complete(cmd *cobra.Command, args []string) error {
 	}
 	secondDir := "/mnt/"
 	if len(options.PvcNames) > 1 {
-		secondDir = options.PvcNames[1]
+		secondDir += options.PvcNames[1]
 	}
 	options.Command = []string{"/usr/bin/mc", "/mnt/" + options.PvcNames[0], secondDir}
 	options.ImageName = mcImageName
