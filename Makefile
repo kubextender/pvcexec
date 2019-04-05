@@ -5,4 +5,4 @@ runmc: buildlocal
 	/tmp/kubectl-pvcexec mc -p testpvc1 -p testpvc2 -n default
 
 runzsh: buildlocal
-	/tmp/kubectl-spvcexec zsh -p testpvc1 -p testpvc2
+	/tmp/kubectl-pvcexec zsh -p testpvc1 -p testpvc2

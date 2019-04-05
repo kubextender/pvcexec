@@ -69,6 +69,7 @@ func CreateRunnerPod(pods *corev1client.CoreV1Client, options *PvcExecOptions) (
 				{
 					Name:    options.PodName,
 					Image:   options.ImageName,
+					ImagePullPolicy: apiv1.PullAlways,
 					Command: []string{"cat"},
 					Stdin:   true,
 					Env: []apiv1.EnvVar{
