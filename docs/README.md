@@ -1,5 +1,7 @@
 # Getting started
 
+[![asciicast](https://asciinema.org/a/WP0Rb2okU8tKOQkSfMlFqPglL.svg)](https://asciinema.org/a/WP0Rb2okU8tKOQkSfMlFqPglL)
+
 ## Installing
 
 !> MacOS and Linux are the only supported platforms at the moment
