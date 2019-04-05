@@ -34,9 +34,15 @@ bash <(curl -s https://raw.githubusercontent.com/kubextender/pvcexec/master/setu
   kubectl pvcexec -h
   ```
 
-## Architecture
+## How it works
 
-`pvcexec` is implemented as a kubernetes plugin. It's written in Go language
+`pvcexec` is implemented as a kubernetes plugin. It's written in Go language. How it works? It's rather simple: 
+
+`pvcexec` expects subcommand to be passed: `mc` or `zsh`. Based on given subcommand, tool deploys pod into your kubernetes context
+based on docker images, which we, opinionatedly, created [here](https://cloud.docker.com/u/kubextender/repository/list).
+
+`pvcexec` also expects list of one or more pvc names to be mounted in given pod. They will be mounted by their name under `/mnt` directory.
+Once you're there, you can perform any file operations needed. After you're done using `pvcexec` the tool will automatically purge the running pod. 
 
 ## Feature requests
 
