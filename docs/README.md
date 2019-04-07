@@ -41,8 +41,13 @@ bash <(curl -s https://raw.githubusercontent.com/kubextender/pvcexec/master/setu
 `pvcexec` expects subcommand to be passed: `mc` or `zsh`. Based on given subcommand, tool deploys pod into your kubernetes context
 based on docker images, which we, opinionatedly, created [here](https://cloud.docker.com/u/kubextender/repository/list).
 
-`pvcexec` also expects list of one or more pvc names to be mounted in given pod. They will be mounted by their name under `/mnt` directory.
-Once you're there, you can perform any file operations needed. After you're done using `pvcexec` the tool will automatically purge the running pod. 
+`pvcexec` also expects list of one or more pvc names to be mounted in given pod. They will be mounted by their name under `/mnt` directory. 
+
+For the example given above, we will have two mounted directories: `/mnt/testpvc1` and `/mnt/testpvc2`. 
+
+Once you're there, you can perform any file operations needed.
+ 
+After you're done using `pvcexec` (by exiting `pod`'s shell) the tool will automatically purge the running pod. 
 
 ## Feature requests
 
