@@ -49,6 +49,13 @@ Once you're there, you can perform any file operations needed.
  
 After you're done using `pvcexec` (by exiting `pod`'s shell) the tool will automatically purge the running pod. 
 
+## Supported sub-commands
+
+`pvcexec`, when being ran, expects sub-command to be passed. The following ones are supported: 
+
+* `mc` [midnight commander](https://midnight-commander.org/) - popular shell based file manager
+* `zsh` [oh-my-zsh](https://ohmyz.sh/) - a shell containing many useful helpers to extend basic shell functionality
+
 ## Feature requests
 
 Feel free to vote for the next [features](https://doodle.com/poll/pnu5kbwnfmcphigt) to implement
