@@ -29,5 +29,6 @@ func NewPvcExecCmd(streams genericclioptions.IOStreams) *cobra.Command {
 	o := NewPvcExecOptions(streams)
 	cmd.AddCommand(NewMcCommand(o))
 	cmd.AddCommand(NewZshCommand(o))
+	cmd.AddCommand(NewVersionCommand(streams))
 	return cmd
 }
