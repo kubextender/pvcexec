@@ -1,5 +1,18 @@
 # Getting started
 
+## Why pvcexec ?
+
+`pvcexec` is the right choice for you in case you need to quickly access content of your existing
+persistent volume claims. 
+
+If there weren't for `pvcexec` you would have to, on your own:
+
+* prepare `k8s` resource definition for temporary pods that would mount selected pvcs
+* prepare docker images packed with you favourite tools to manage pvcs and deploy them to docker registry
+* do resources cleanup on you own
+
+We firmly believe that having `pvcexec` will reduce complexity of entire process!
+
 ## Installing
 
 !> MacOS and Linux are the only supported platforms at the moment

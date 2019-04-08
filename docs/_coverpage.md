@@ -2,7 +2,7 @@
 
 > [`pvcexec 0.2.2`](https://github.com/kubextender/pvcexec/releases/latest)
 
-> Missing kubernetes pvc manager!
+> Instantly access your pvc contents!
 
 - Runs as a kubernetes plugin
 
