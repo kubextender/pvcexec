@@ -2,9 +2,11 @@ image:https://travis-ci.com/kubextender/pvcexec.svg?branch=master["Build Status"
 
 Project documentation: https://kubextender.github.io/pvcexec/[]
 
-.zsh
-image::docs/_media/screencast.svg[zsh]
+=== Install / Update
+[source, bash]
+bash <(curl -s https://raw.githubusercontent.com/kubextender/pvcexec/master/setup.sh)
 
-.mc
+=== Run
+image::docs/_media/screencast.svg[zsh]
 image::docs/_media/screencast_mc.svg[mc]
 
