@@ -1,6 +1,11 @@
 builds:
-  - main: main.go
+  -
+    main: main.go
     binary: kubectl-pvcexec
+      # Custom ldflags templates.
+      # Default is `-s -w -X main.version={{.Version}} -X main.commit={{.ShortCommit}} -X main.date={{.Date}}`.
+    ldflags:
+        - --s -w -X github.com/kubextender/pvcexec/pkg/cmd.version={{.Version}} -X github.com/kubextender/pvcexec/pkg/cmd.commit={{.ShortCommit}} -X github.com/kubextender/pvcexec/pkg/cmd.date={{.Date}}
     goos:
       - darwin
       - linux
