@@ -25,7 +25,7 @@ func NewPvcExecCmd(streams genericclioptions.IOStreams) *cobra.Command {
 		DisableFlagsInUseLine: true,
 		PersistentPreRun: func(c *cobra.Command, args []string) {
 			if err := o.Complete(c, args); err != nil {
-				fmt.Errorf("can't determine namespace\n")
+				fmt.Errorf("ERROR: can't determine namespace\n")
 				c.SetOutput(streams.ErrOut)
 				cobra.NoArgs(c, args)
 				c.Help()
@@ -33,7 +33,7 @@ func NewPvcExecCmd(streams genericclioptions.IOStreams) *cobra.Command {
 			fmt.Printf("Selected namespace: %s\n", o.Namespace)
 		},
 	}
-	cmd.PersistentFlags().StringP("namespace", "n", "", "use this flag to override kubernetes namespace from current context")
+	cmd.PersistentFlags().StringP("namespace", "n", "", "If present, the namespace scope for this CLI request.")
 	cmd.AddCommand(NewMcCommand(o))
 	cmd.AddCommand(NewZshCommand(o))
 	cmd.AddCommand(NewVersionCommand(streams))
