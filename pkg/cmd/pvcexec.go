@@ -1,34 +1,42 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/kubextender/pvcexec/pkg/k8s"
 	"github.com/spf13/cobra"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 )
 
 func NewPvcExecOptions(streams genericclioptions.IOStreams) *k8s.PvcExecOptions {
-	options := &k8s.PvcExecOptions{
-		ConfigFlags: genericclioptions.NewConfigFlags(true),
+	flags := genericclioptions.NewConfigFlags(true)
+	var options = &k8s.PvcExecOptions{
+		ConfigFlags: flags,
 		IOStreams:   streams,
 	}
 	return options
 }
 
 func NewPvcExecCmd(streams genericclioptions.IOStreams) *cobra.Command {
+	o := NewPvcExecOptions(streams)
 	cmd := &cobra.Command{
-		Use:                   "pvcexec COMMAND=mc|ohmyzsh|bash [options]",
+		Use:                   "pvcexec [flags] [command]",
 		Short:                 "Mounts provided pvc(s) to the new pod and run command",
-		Example:               "pvcexec [sub-command]",
+		Example:               "pvcexec -n default mc",
 		DisableFlagsInUseLine: true,
-		Run: func(c *cobra.Command, args []string) {
-			c.SetOutput(streams.ErrOut)
-			cobra.NoArgs(c, args)
-			c.Help()
+		PersistentPreRun: func(c *cobra.Command, args []string) {
+			if err := o.Complete(c, args); err != nil {
+				fmt.Errorf("can't determine namespace\n")
+				c.SetOutput(streams.ErrOut)
+				cobra.NoArgs(c, args)
+				c.Help()
+			}
+			fmt.Printf("Selected namespace: %s\n", o.Namespace)
 		},
 	}
-	o := NewPvcExecOptions(streams)
+	cmd.PersistentFlags().StringP("namespace", "n", "", "use this flag to override kubernetes namespace from current context")
 	cmd.AddCommand(NewMcCommand(o))
 	cmd.AddCommand(NewZshCommand(o))
 	cmd.AddCommand(NewVersionCommand(streams))
+	cmd.AddCommand(NewListCommand(o))
 	return cmd
 }

@@ -40,29 +40,12 @@ func NewZshCommand(pvcexecOptions *k8s.PvcExecOptions) *cobra.Command {
 	}
 	cmd.Flags().StringArrayP("pvc", "p", nil, "-pvc pvc1 -pvc pvc2 ...")
 	cmd.MarkFlagRequired("pvc")
-	cmd.Flags().StringP("namespace", "n", "", "use this flag to override kubernetes namespace from current kubectl context")
 	return cmd
 }
 
 // Complete completes the setup of the command.
 func (zshOptions *ZshOptions) complete(cmd *cobra.Command, args []string) error {
-	var err error
 	options := zshOptions.pvcExecOptions
-	// Prepare namespace
-	options.Namespace, _, err = options.ConfigFlags.ToRawKubeConfigLoader().Namespace()
-	if err != nil {
-		return err
-	}
-
-	var overrideNamespace, _ = cmd.Flags().GetString("namespace")
-	if len(overrideNamespace) > 0 {
-		options.Namespace = overrideNamespace
-	}
-	// Prepare client
-	options.RestConfig, err = options.ConfigFlags.ToRESTConfig()
-	if err != nil {
-		return err
-	}
 	options.PvcNames, _ = cmd.Flags().GetStringArray("pvc")
 	options.Command = []string{"/bin/zsh"}
 	options.ImageName = zshImageName

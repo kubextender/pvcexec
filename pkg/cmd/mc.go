@@ -21,6 +21,7 @@ func NewMcOptions(options *k8s.PvcExecOptions) *McOptions {
 		pvcExecOptions: options,
 	}
 }
+
 func NewMcCommand(pvcexecOptions *k8s.PvcExecOptions) *cobra.Command {
 	options := NewMcOptions(pvcexecOptions)
 	cmd := &cobra.Command{
@@ -40,33 +41,13 @@ func NewMcCommand(pvcexecOptions *k8s.PvcExecOptions) *cobra.Command {
 	}
 	cmd.Flags().StringArrayP("pvc", "p", nil, "-pvc pvc1 -pvc pvc2 ...")
 	cmd.MarkFlagRequired("pvc")
-	cmd.Flags().StringP("namespace", "n", "", "use this flag to override kubernetes namespace from current kubectl context")
 	return cmd
 }
 
 // Complete completes the setup of the command.
 func (mcOptions *McOptions) complete(cmd *cobra.Command, args []string) error {
-	var err error
 	options := mcOptions.pvcExecOptions
-	// Prepare namespace
-	options.Namespace, _, err = options.ConfigFlags.ToRawKubeConfigLoader().Namespace()
-	if err != nil {
-		return err
-	}
-
-	var overrideNamespace, _ = cmd.Flags().GetString("namespace")
-	if len(overrideNamespace) > 0 {
-		options.Namespace = overrideNamespace
-	}
-	// Prepare client
-	options.RestConfig, err = options.ConfigFlags.ToRESTConfig()
-	if err != nil {
-		return err
-	}
 	options.PvcNames, _ = cmd.Flags().GetStringArray("pvc")
-	if err != nil {
-		return err
-	}
 	secondDir := "/mnt/"
 	if len(options.PvcNames) > 1 {
 		secondDir += options.PvcNames[1]

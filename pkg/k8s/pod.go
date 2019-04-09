@@ -67,11 +67,11 @@ func CreateRunnerPod(pods *corev1client.CoreV1Client, options *PvcExecOptions) (
 			Volumes: volumes,
 			Containers: []apiv1.Container{
 				{
-					Name:    options.PodName,
-					Image:   options.ImageName,
+					Name:            options.PodName,
+					Image:           options.ImageName,
 					ImagePullPolicy: apiv1.PullAlways,
-					Command: []string{"cat"},
-					Stdin:   true,
+					Command:         []string{"cat"},
+					Stdin:           true,
 					Env: []apiv1.EnvVar{
 						{Name: "TERM", Value: getEnv("TERM", "xterm-256color")},
 						{Name: "COLUMNS", Value: getEnv("COLUMNS", "180")},
@@ -104,13 +104,13 @@ func CreateRunnerPod(pods *corev1client.CoreV1Client, options *PvcExecOptions) (
 					return
 				}
 				pod = events.Object.(*apiv1.Pod)
-				fmt.Println("Checking pod status:", status.Phase)
+				fmt.Printf("Pod status: %s\n", status.Phase)
 				status = pod.Status
 				if pod.Status.Phase != apiv1.PodPending {
 					w.Stop()
 				}
-			case <-time.After(15 * time.Second):
-				fmt.Println("timeout to wait for pod active")
+			case <-time.After(10 * time.Second):
+				fmt.Println("timeout to wait for pod active status")
 				w.Stop()
 			}
 		}
