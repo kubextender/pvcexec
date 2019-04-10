@@ -2,6 +2,8 @@ image:https://travis-ci.com/kubextender/pvcexec.svg?branch=master["Build Status"
 
 Project documentation: https://kubextender.github.io/pvcexec/[]
 
+== Instantly access your pvc contents!
+
 === Install / Update
 [source, bash]
 bash <(curl -s https://raw.githubusercontent.com/kubextender/pvcexec/master/setup.sh)

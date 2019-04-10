@@ -68,6 +68,9 @@ After you're done using `pvcexec` (by exiting `pod`'s shell) the tool will autom
 
 * `mc` [midnight commander](https://midnight-commander.org/) - popular shell based file manager
 * `zsh` [oh-my-zsh](https://ohmyz.sh/) - a shell containing many useful helpers to extend basic shell functionality
+* `list` print existing pvcs in the cluster and their statuses
+* `version` print version information
+* `help` program help, flags and commands
 
 ## Feature requests
 
