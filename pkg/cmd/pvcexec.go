@@ -21,11 +21,14 @@ func NewPvcExecCmd(streams genericclioptions.IOStreams) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                   "pvcexec [flags] [command]",
 		Short:                 "Mounts provided pvc(s) to the new pod and run command",
+		Long: 				   `
+Instantly access your pvc contents!
+Project documentation is here https://kubextender.github.io/pvcexec/`,
 		Example:               "pvcexec -n default mc",
 		DisableFlagsInUseLine: true,
 		PersistentPreRun: func(c *cobra.Command, args []string) {
 			if err := o.Complete(c, args); err != nil {
-				fmt.Errorf("ERROR: can't determine namespace\n")
+				fmt.Printf("ERROR: can't determine namespace\n")
 				c.SetOutput(streams.ErrOut)
 				cobra.NoArgs(c, args)
 				c.Help()

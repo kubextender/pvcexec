@@ -52,7 +52,7 @@ func (mcOptions *McOptions) complete(cmd *cobra.Command, args []string) error {
 	if len(options.PvcNames) > 1 {
 		secondDir += options.PvcNames[1]
 	}
-	options.Command = []string{"/usr/bin/mc", "/mnt/" + options.PvcNames[0], secondDir}
+	options.Command = []string{"/usr/bin/mc", "-S", "gotar", "/mnt/" + options.PvcNames[0], secondDir}
 	options.ImageName = mcImageName
 	options.PodName = mcPodName
 	return nil
