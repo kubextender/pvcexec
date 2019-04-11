@@ -32,6 +32,7 @@ func NewListCommand(options *k8s.PvcExecOptions) *cobra.Command {
 			for _, it := range pvcList.Items {
 				_, _ = fmt.Fprintf(w, "\n %s\t%s", it.Name, it.Status.Phase)
 			}
+			_, _ = fmt.Fprintf(w, "\n %s\t%s\t\n", "------", "------")
 			return nil
 		},
 	}
