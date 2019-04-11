@@ -5,6 +5,7 @@ import (
 	"github.com/kubextender/pvcexec/pkg/k8s"
 	"github.com/spf13/cobra"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
+	"time"
 )
 
 func NewPvcExecOptions(streams genericclioptions.IOStreams) *k8s.PvcExecOptions {
@@ -37,6 +38,7 @@ Project documentation is here https://kubextender.github.io/pvcexec/`,
 		},
 	}
 	cmd.PersistentFlags().StringP("namespace", "n", "", "If present, the namespace scope for this CLI request.")
+	cmd.PersistentFlags().DurationP("timeout", "t", 10 * time.Second, "Active pod status timeout.")
 	cmd.AddCommand(NewMcCommand(o))
 	cmd.AddCommand(NewZshCommand(o))
 	cmd.AddCommand(NewVersionCommand(streams))

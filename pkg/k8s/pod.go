@@ -109,8 +109,8 @@ func CreateRunnerPod(pods *corev1client.CoreV1Client, options *PvcExecOptions) (
 				if pod.Status.Phase != apiv1.PodPending {
 					w.Stop()
 				}
-			case <-time.After(10 * time.Second):
-				fmt.Println("timeout to wait for pod active status")
+			case <-time.After(options.Timeout):
+				fmt.Println("timeout waiting for pod active status")
 				w.Stop()
 			}
 		}
