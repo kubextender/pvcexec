@@ -1,6 +1,6 @@
 <!-- _coverpage.md -->
 
-> [`pvcexec 0.2.3`](https://github.com/kubextender/pvcexec/releases/latest)
+> [`pvcexec 0.2.4`](https://github.com/kubextender/pvcexec/releases/latest)
 
 > Instantly access your pvc contents!
 
